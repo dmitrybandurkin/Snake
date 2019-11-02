@@ -7,14 +7,22 @@ using System.Drawing;
 
 namespace Snake
 {
-    class Snake
+    abstract class Snake
     {
-        List<Cells> snake;
+        protected List<Cells> snake;
+
+        public int Speed { get; set; }
+
+        public int scores { get; set; }
+
+        protected int rad_vis;
         public int X => snake[0].X;
         public int Y => snake[0].Y;
+        public Rectangle Rect => snake[0].Rect;
         public int Length => snake.Count;
+        public List<Cells> Snake_list => snake;
 
-        private int loopdelete;
+        protected int loopdelete;
         public bool Loop
         {
             get
@@ -35,11 +43,15 @@ namespace Snake
         }
         public Snake()
         {
-            snake = new List<Cells>();
-            snake.Add(new Cells(100, 100, Cellkind.Head));
+            scores = 0;
+            Speed = 5;
+            rad_vis = 100;
         }
         public void Move(int shift_x, int shift_y)
         {
+            shift_x = shift_x * Speed / 10;
+            shift_y = shift_y * Speed / 10;
+
             int[,] coord = new int[snake.Count, 2];
 
             for (int i = 0; i < snake.Count; i++)
@@ -57,17 +69,15 @@ namespace Snake
                 snake[i].Y = coord[i - 1, 1];
             }
         }
-        public void Eat(Cellkind kind)
-        {
-            if (kind == Cellkind.Food) snake.Add(new Cells(snake[Length-1].X, snake[Length - 1].Y, Cellkind.Tail));
-            if (kind == Cellkind.Tail) snake.RemoveRange(loopdelete, Length - loopdelete);
-        }
+        virtual public void Eat(Cellkind kind) {}
         public void Draw(Graphics g)
         {
             foreach (Cells cell in snake)
             {
                 cell.Draw(g);
             }
+
+            g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - rad_vis, snake[0].Y+5 - rad_vis, 2* rad_vis, 2* rad_vis);
         }
     }
 }

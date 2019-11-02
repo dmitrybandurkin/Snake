@@ -47,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cells.cs" />
+    <Compile Include="CellsSpeed.cs" />
+    <Compile Include="CellsFood.cs" />
+    <Compile Include="SnakeEvel.cs" />
+    <Compile Include="SnakeUser.cs" />
     <Compile Include="Snake.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
