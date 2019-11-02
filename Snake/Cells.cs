@@ -20,7 +20,11 @@ namespace Snake
     {
         const int cell_size = 10;
         public Rectangle Rect { get; set; }
-        private Bitmap image;
+        private Bitmap image_head = new Bitmap("head.png");
+        private Bitmap image_tail = new Bitmap("tail.png");
+        private Bitmap image_mouse = new Bitmap("mouse.png");
+        private Bitmap image_speed = new Bitmap("speed.png");
+
         public Random rnd;
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace Snake
         public Cellkind Kind { get; set; }
         public Cells(int x, int y)
         {
+
             X = x;
             Y = y;
         }
@@ -68,14 +73,15 @@ namespace Snake
         }
         public void Draw(Graphics g)
         {
+
             p = new Point(X, Y);
             s = new Size(cell_size, cell_size);
             Rect = new Rectangle(p, s);
 
-            if (this.Kind == Cellkind.Head) g.DrawImage(new Bitmap("head.jpg"), Rect);
-            if (this.Kind == Cellkind.Tail) g.DrawImage(new Bitmap("tail.jpg"), Rect);
-            if (this.Kind == Cellkind.Food) g.DrawImage(new Bitmap("mouse.jpg"), Rect);
-            if (this.Kind == Cellkind.Speed) g.DrawImage(new Bitmap("speed.jpg"), Rect);
+            if (this.Kind == Cellkind.Head) g.DrawImage(image_head, Rect);
+            if (this.Kind == Cellkind.Tail) g.DrawImage(image_tail, Rect);
+            if (this.Kind == Cellkind.Food) g.DrawImage(image_mouse, Rect);
+            if (this.Kind == Cellkind.Speed) g.DrawImage(image_speed, Rect);
         }
 
         public virtual void TimeToMix() {}
