@@ -11,16 +11,16 @@ namespace Snake
     {
         Random rnd;
         int randompoint_x, randompoint_y;
-        public SnakeEvel()
+        public SnakeEvel(int x, int y):base(x,y)
         {
             randompoint_x = 300;
-            randompoint_y=300;
+            randompoint_y = 300;
             rnd = new Random();
             snake = new List<Cells>();
-            snake.Add(new Cells(300, 300, Cellkind.Head));
-            snake.Add(new Cells(300, 300, Cellkind.Tail));
-            snake.Add(new Cells(300, 300, Cellkind.Tail));
-            snake.Add(new Cells(300, 300, Cellkind.Tail));
+            snake.Add(new Cells(x, y, Cellkind.Head));
+            snake.Add(new Cells(x, y, Cellkind.Tail));
+            snake.Add(new Cells(x, y, Cellkind.Tail));
+            snake.Add(new Cells(x, y, Cellkind.Tail));
         }
         public void AI(Cells obj)
         {

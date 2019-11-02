@@ -13,11 +13,11 @@ namespace Snake
     public partial class Form1 : Form
     {
         Timer timer;
-        SnakeUser current_snake;
+        SnakeUser user_snake;
         SnakeEvel evel;
         Cells[] poi;
-
         Random rnd;
+
         int x=10, y;
 
         /// <summary>
@@ -31,24 +31,27 @@ namespace Snake
         public Form1()
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.Fixed3D;
+            this.BackColor = Color.White;
+
             this.KeyDown += Movement;
             this.Paint += Form_Paint;
             this.DoubleBuffered = true;
 
-            poi = new Cells[2];
             rnd = new Random();
-            poi[0] = new CellsFood(rnd.Next(10, 21) * 10, rnd.Next(10, 21) * 10, Cellkind.Food);
-            poi[1] = new CellsSpeed(rnd.Next(10, 21) * 10, rnd.Next(10, 21) * 10, Cellkind.Speed);
+            poi = new Cells[2];
+            poi[0] = new CellsFood(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10);
+            poi[1] = new CellsSpeed(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10);
 
-            current_snake = new SnakeUser();
-            evel = new SnakeEvel();
+            user_snake = new SnakeUser(100,250);
+            evel = new SnakeEvel(600,250);
 
             timer = new Timer() { Interval = 100, Enabled = true };
             timer.Tick += TimerTick;
             timer.Start();
 
         }
-
         private void Movement(object sender, KeyEventArgs e)
         {
             if (step)
@@ -75,13 +78,12 @@ namespace Snake
         {
             step = true;
 
-            current_snake.Move(x, y);
+            user_snake.Move(x, y);
             evel.AI(poi[0]);
 
-            EatFood(current_snake);
+            EatFood(user_snake);
             EatFood(evel);
-
-            if (current_snake.Loop) current_snake.Eat(Cellkind.Tail);
+            if (user_snake.Loop) user_snake.Eat(Cellkind.Tail);
 
             this.Refresh();
 
@@ -101,16 +103,19 @@ namespace Snake
         {
             Graphics g = e.Graphics;
             g.DrawRectangle(new Pen(Color.Black), 100, 50, 600, 350);
-            current_snake.Draw(g);
+            user_snake.Draw(g);
             evel.Draw(g);
             foreach (Cells p in poi)
             {
                 p.Draw(g);
             }
-            g.DrawString($"player: {current_snake.scores.ToString()}",new Font("Calibri",12),Brushes.Black,10,10);
-            g.DrawString($"computer: {evel.scores.ToString()}", new Font("Calibri", 12), Brushes.Black, 10, 30);
-            g.DrawString($"T: {current_snake.Speed_period.ToString()}", new Font("Calibri", 12), Brushes.Black, 100, 10);
-            g.DrawString($"TT: {poi[1].Mixing_period.ToString()}", new Font("Calibri", 12), Brushes.Black, 100, 30);
+            g.DrawString($"Player: {user_snake.scores.ToString()}",new Font("Calibri",12),Brushes.Black,10,10);
+            g.DrawString($"Computer: {evel.scores.ToString()}", new Font("Calibri", 12), Brushes.Black, 10, 30);
+            g.DrawString($"скорость 50: {user_snake.Speed_period.ToString()}", new Font("Calibri", 12), Brushes.Black, 150, 10);
+            g.DrawString($"до новой 100: {poi[1].Mixing_period.ToString()}", new Font("Calibri", 12), Brushes.Black, 150, 30);
+            g.DrawString($"fx: {poi[0].X.ToString()}, fy:{poi[0].Y.ToString()}", new Font("Calibri", 12), Brushes.Black, 300, 10);
+            g.DrawString($"sp: {poi[1].X.ToString()}, fy:{poi[1].Y.ToString()}", new Font("Calibri", 12), Brushes.Black, 300, 30);
+            g.DrawString($"скорость: {user_snake.Speed.ToString()}", new Font("Calibri", 12), Brushes.Black, 450, 10);
         }
 
     }

@@ -20,8 +20,8 @@ namespace Snake
     {
         const int cell_size = 10;
         public Rectangle Rect { get; set; }
-
-        private Random rnd;
+        private Bitmap image;
+        public Random rnd;
 
         /// <summary>
         /// время замеса новой фичи
@@ -33,17 +33,23 @@ namespace Snake
         public int X { get; set; }
         public int Y { get; set; }
         public Cellkind Kind { get; set; }
-        public Cells (int x, int y, Cellkind kind)
+        public Cells(int x, int y)
         {
             X = x;
             Y = y;
-            rnd = new Random();
+        }
+
+        public Cells(int x, int y, Cellkind kind)
+        {
+            X = x;
+            Y = y;
             Kind = kind;
         }
 
         public virtual void Place(Snake obj)
         {
             bool wrong_coord;
+            rnd = new Random();
 
             do
             {
@@ -65,9 +71,11 @@ namespace Snake
             p = new Point(X, Y);
             s = new Size(cell_size, cell_size);
             Rect = new Rectangle(p, s);
-            if (this.Kind == Cellkind.Head || this.Kind == Cellkind.Tail) g.FillRectangle(Brushes.Black, Rect);
-            if (this.Kind == Cellkind.Food) g.FillRectangle(Brushes.Red, Rect);
-            if (this.Kind == Cellkind.Speed) g.FillRectangle(Brushes.Green, Rect);
+
+            if (this.Kind == Cellkind.Head) g.DrawImage(new Bitmap("head.jpg"), Rect);
+            if (this.Kind == Cellkind.Tail) g.DrawImage(new Bitmap("tail.jpg"), Rect);
+            if (this.Kind == Cellkind.Food) g.DrawImage(new Bitmap("mouse.jpg"), Rect);
+            if (this.Kind == Cellkind.Speed) g.DrawImage(new Bitmap("speed.jpg"), Rect);
         }
 
         public virtual void TimeToMix() {}

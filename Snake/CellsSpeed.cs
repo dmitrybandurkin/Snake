@@ -10,10 +10,10 @@ namespace Snake
     class CellsSpeed:Cells
     {
         Timer to_next_speed;
-        Random rnd;
-        public CellsSpeed(int x, int y, Cellkind kind) : base(x, y, kind) 
+
+        public CellsSpeed(int x, int y):base(x,y)
         {
-            rnd = new Random();
+            Kind = Cellkind.Speed;
             to_next_speed = new Timer() { Interval = 100, Enabled = false };
             to_next_speed.Elapsed += Mixing;
         }
@@ -29,7 +29,7 @@ namespace Snake
 
         private void Mixing(object sender, ElapsedEventArgs e)
         {
-            if (Mixing_period < 10) Mixing_period++;
+            if (Mixing_period < 100) Mixing_period++;
             else
             {
                 to_next_speed.Enabled = false;

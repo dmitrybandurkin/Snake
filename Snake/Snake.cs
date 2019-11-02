@@ -41,7 +41,7 @@ namespace Snake
                 return false;
             }
         }
-        public Snake()
+        public Snake(int x, int y)
         {
             scores = 0;
             Speed = 5;
@@ -77,7 +77,7 @@ namespace Snake
                 cell.Draw(g);
             }
 
-            g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - rad_vis, snake[0].Y+5 - rad_vis, 2* rad_vis, 2* rad_vis);
+            //g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - rad_vis, snake[0].Y+5 - rad_vis, 2* rad_vis, 2* rad_vis);
         }
     }
 }
