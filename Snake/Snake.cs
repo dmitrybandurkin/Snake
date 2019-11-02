@@ -44,7 +44,7 @@ namespace Snake
         public Snake(int x, int y)
         {
             scores = 0;
-            Speed = 5;
+            Speed = 10;
             rad_vis = 100;
         }
         public void Move(int shift_x, int shift_y)

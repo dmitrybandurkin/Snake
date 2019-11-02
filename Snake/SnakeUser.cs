@@ -35,7 +35,7 @@ namespace Snake
 
             if (kind == Cellkind.Speed)
             {
-                Speed = 10;
+                Speed = 15;
                 Speed_period = 0;
                 timer.Enabled = true;
                 timer.Start();
@@ -47,7 +47,7 @@ namespace Snake
             if (Speed_period < 50) Speed_period++;
             else 
             {
-                Speed = 5;
+                Speed = 10;
                 timer.Enabled = false;
                 timer.Stop();
                 Speed_period = 0;
