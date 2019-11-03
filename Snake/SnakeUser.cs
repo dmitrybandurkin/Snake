@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using System.Timers;
+using System.Windows.Forms;
 
 namespace Snake
 {
-    class SnakeUser:Snake
+    class SnakeUser : Snake
     {
         private Timer timer;
         public int Speed_period { get; set; }
+        public bool Speedup {get;set;}
         public SnakeUser(int x, int y):base(x,y)
         {
+            Speedup = false;
             timer = new Timer() { Interval = 100, Enabled = false };
-            timer.Elapsed += TimerTick;
+            timer.Tick += TimerTick;
             snake = new List<Cells>();
             snake.Add(new Cells(x, y, Cellkind.Head));
         } 
@@ -24,7 +26,7 @@ namespace Snake
             if (kind == Cellkind.Tail)
             {
                 snake.RemoveRange(loopdelete, Length - loopdelete);
-                scores = scores/2;
+                scores = scores - (Length - loopdelete)*10 / 2;
             }
                 
             if (kind == Cellkind.Food)
@@ -35,19 +37,19 @@ namespace Snake
 
             if (kind == Cellkind.Speed)
             {
-                Speed = 15;
+                Speedup = true;
                 Speed_period = 0;
                 timer.Enabled = true;
                 timer.Start();
             }
         }
 
-        private void TimerTick(object sender, ElapsedEventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             if (Speed_period < 50) Speed_period++;
             else 
             {
-                Speed = 10;
+                Speedup = false;
                 timer.Enabled = false;
                 timer.Stop();
                 Speed_period = 0;

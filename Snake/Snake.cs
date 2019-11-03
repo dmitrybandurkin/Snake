@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Snake
 {
@@ -16,8 +17,20 @@ namespace Snake
         public int scores { get; set; }
 
         protected int rad_vis;
-        public int X => snake[0].X;
-        public int Y => snake[0].Y;
+
+        public int X
+        {
+            get => snake[0].X;
+            set => snake[0].X = value;
+        }
+
+        public int Y
+        {
+            get => snake[0].Y;
+            set => snake[0].Y = value;
+        }
+        //public int X => snake[0].X;
+        //public int Y => snake[0].Y;
         public Rectangle Rect => snake[0].Rect;
         public int Length => snake.Count;
         public List<Cells> Snake_list => snake;
