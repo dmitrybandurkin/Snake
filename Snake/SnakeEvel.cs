@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Snake
 {
-    class SnakeEvel : Snake
+    internal class SnakeEvel : Snake
     {
-        Random rnd;
-        int randompoint_x, randompoint_y;
-        public SnakeEvel(int x, int y):base(x,y)
+        private Random rnd;
+        private int randompoint_x, randompoint_y;
+        public SnakeEvel(int x, int y) : base(x, y)
         {
             randompoint_x = 300;
             randompoint_y = 300;
@@ -55,7 +50,7 @@ namespace Snake
                 if (snake[0].Y > obj.Y) Move(0, -speed);
             }
         }
-        public override void Eat(Cellkind kind) 
+        public override void Eat(Cellkind kind)
         {
             if (kind == Cellkind.Food) scores += 10;
         }

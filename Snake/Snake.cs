@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace Snake
 {
-    abstract class Snake
+    internal abstract class Snake
     {
         protected List<Cells> snake;
         public int Speed { get; set; }
@@ -76,7 +71,7 @@ namespace Snake
                 snake[i].Y = coord[i - 1, 1];
             }
         }
-        virtual public void Eat(Cellkind kind) {}
+        virtual public void Eat(Cellkind kind) { }
         public void Draw(Graphics g)
         {
             foreach (Cells cell in snake)
@@ -84,7 +79,7 @@ namespace Snake
                 cell.Draw(g);
             }
 
-            g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - Rad_vis, snake[0].Y+5 - Rad_vis, 2* Rad_vis, 2* Rad_vis);
+            g.DrawEllipse(new Pen(Color.Red), snake[0].X + 5 - Rad_vis, snake[0].Y + 5 - Rad_vis, 2 * Rad_vis, 2 * Rad_vis);
         }
     }
 }

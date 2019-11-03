@@ -1,35 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Snake
 {
     public partial class Form1 : Form
     {
-        static Bitmap back = new Bitmap("field2.png");
+        private static Bitmap back = new Bitmap("field2.png");
+        private Timer game_timer;
+        private Timer user_timer;
+        private int player_speed, game_speed;
+        private SnakeUser user_snake;
+        private SnakeEvel evel;
+        private Cells[] poi;
+        private Random rnd;
+        private int x = 10, y;
+        private string txt;
+        private int width, height;
 
-        Timer game_timer;
-        Timer user_timer;
-        int player_speed, game_speed;
-
-        SnakeUser user_snake;
-        SnakeEvel evel;
-        Cells[] poi;
-        Random rnd;
-
-        int x=10, y;
-        string txt;
-        int width, height;
         /// <summary>
         /// разрешение поворот змейки: true - присутствует
         /// </summary>
-        bool step;
+        private bool step;
 
         /// <summary>
         /// наличие ускорителя в игре
@@ -38,27 +30,27 @@ namespace Snake
         {
             InitializeComponent();
 
-            this.BackgroundImage = back;
-            this.FormBorderStyle = FormBorderStyle.Fixed3D;
+            BackgroundImage = back;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
 
-            this.KeyDown += Movement;
-            this.Paint += Form_Paint;
-            this.DoubleBuffered = true;
+            KeyDown += Movement;
+            Paint += Form_Paint;
+            DoubleBuffered = true;
 
             width = 60;
-            height=35;
+            height = 35;
             player_speed = 100;
             game_speed = 100;
 
             rnd = new Random();
             poi = new Cells[4];
             poi[0] = new CellsFood(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10);
-            poi[1] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10,Cellkind.Speed);
+            poi[1] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10, Cellkind.Speed);
             poi[2] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10, Cellkind.Vision);
             poi[3] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10, Cellkind.BadVision);
 
-            user_snake = new SnakeUser(100,250);
-            evel = new SnakeEvel(600,250);
+            user_snake = new SnakeUser(100, 250);
+            evel = new SnakeEvel(600, 250);
 
             InitTimer();
             InitUserTimer();
@@ -95,9 +87,9 @@ namespace Snake
                         break;
                     case Keys.Space:
                         break;
-                } 
-            step = false;
-            }   
+                }
+                step = false;
+            }
         }
         private void UserTimerTick(object sender, EventArgs e)
         {
@@ -108,7 +100,7 @@ namespace Snake
             EatFood(user_snake);
             Effects();
 
-            this.Refresh();
+            Refresh();
         }
 
         private void Effects()
@@ -117,25 +109,30 @@ namespace Snake
 
             txt = "";
             user_timer.Interval = 100;
+            game_timer.Interval = 100;
             user_snake.Rad_vis = 100;
             evel.Rad_vis = 100;
 
             if (poi[1].Inaction)
             {
-                user_timer.Interval = 50;
+                user_timer.Interval = user_timer.Interval - 30;
+                user_snake.Rad_vis = user_snake.Rad_vis - 30;
                 txt = txt + ((CellsEffect)poi[1]).Txt + "\n";
             }
 
             if (poi[2].Inaction)
             {
                 user_snake.Rad_vis = 1000;
+                user_timer.Interval = user_timer.Interval + 50;
+                game_timer.Interval = game_timer.Interval - 50;
                 txt = txt + ((CellsEffect)poi[2]).Txt + "\n";
             }
 
             if (poi[3].Inaction)
             {
                 evel.Rad_vis = 1000;
-                user_snake.Rad_vis = 20;
+                user_snake.Rad_vis = user_snake.Rad_vis - 50;
+                user_timer.Interval = user_timer.Interval - 50;
                 txt = txt + ((CellsEffect)poi[3]).Txt + "\n";
             }
 
@@ -151,7 +148,7 @@ namespace Snake
         {
             evel.AI(poi[0]);
             EatFood(evel);
-            this.Refresh();
+            Refresh();
         }
         private void EatFood(Snake snk)
         {
@@ -167,17 +164,17 @@ namespace Snake
         private void Form_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawRectangle(new Pen(Color.Black), 100, 50, width*10, height*10);
+            g.DrawRectangle(new Pen(Color.Black), 100, 50, width * 10, height * 10);
             user_snake.Draw(g);
             evel.Draw(g);
             foreach (Cells p in poi)
             {
-                if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
+                if (Math.Sqrt(Math.Pow((user_snake.X - p.X), 2) + Math.Pow((user_snake.Y - p.Y), 2)) < user_snake.Rad_vis) p.Draw(g);
                 //p.Draw(g);
             }
 
 
-            g.DrawString($"Player: {user_snake.scores.ToString()}",new Font("Calibri",14,FontStyle.Bold),Brushes.White,10,5);
+            g.DrawString($"Player: {user_snake.scores.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 10, 5);
             g.DrawString($"Computer: {evel.scores.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 10, 30);
             g.DrawString($"Эффекты: {txt}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 150, 5);
 

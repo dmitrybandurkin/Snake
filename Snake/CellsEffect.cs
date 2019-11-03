@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+﻿using System.Timers;
 
 namespace Snake
 {
-    class CellsEffect:Cells
+    internal class CellsEffect : Cells
     {
-        Timer period_mix;
-        Timer period_act;
+        private Timer period_mix;
+        private Timer period_act;
         public string Txt { get; set; }
 
         private Cellkind init_kind;
-        public CellsEffect(int x, int y, Cellkind kind):base(x, y)
+        public CellsEffect(int x, int y, Cellkind kind) : base(x, y)
         {
             Inaction = false;
             Txt = "";
@@ -40,9 +35,9 @@ namespace Snake
             period_act.Enabled = true;
             period_act.Start();
             Inaction = true;
-            if (init_kind == Cellkind.Speed) Txt = "Многоножка";
-            if (init_kind == Cellkind.Vision) Txt = "Прозрение";
-            if (init_kind == Cellkind.BadVision) Txt = "Всевидящее око";
+            if (init_kind == Cellkind.Speed) Txt = "+ Многоножка";
+            if (init_kind == Cellkind.Vision) Txt = "+ Прозрение";
+            if (init_kind == Cellkind.BadVision) Txt = "- Всевидящее око";
         }
         private void Mixing(object sender, ElapsedEventArgs e)
         {

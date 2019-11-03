@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace Snake
 {
-    enum Cellkind
+    internal enum Cellkind
     {
         Head,
         Tail,
@@ -17,24 +12,26 @@ namespace Snake
         Vision,
         BadVision,
         Empty
-    } 
-    class Cells
+    }
+
+    internal class Cells
     {
         public bool Inaction { get; set; }
 
-        const int cell_size = 10;
+        private const int cell_size = 10;
         private Rectangle rect;
         public Rectangle Rect
-        { 
-            get => rect; 
-            set => rect = value; 
+        {
+            get => rect;
+            set => rect = value;
         }
-        static Bitmap image_head = new Bitmap("head.png");
-        static Bitmap image_tail = new Bitmap("tail.png");
-        static Bitmap image_mouse = new Bitmap("mouse.png");
-        static Bitmap image_speed = new Bitmap("speed.png");
-        static Bitmap image_vision = new Bitmap("vision.png");
-        static Bitmap image_badvision = new Bitmap("badvision.png");
+
+        private static Bitmap image_head = new Bitmap("head.png");
+        private static Bitmap image_tail = new Bitmap("tail.png");
+        private static Bitmap image_mouse = new Bitmap("mouse.png");
+        private static Bitmap image_speed = new Bitmap("speed.png");
+        private static Bitmap image_vision = new Bitmap("vision.png");
+        private static Bitmap image_badvision = new Bitmap("badvision.gif");
 
         protected Random rnd;
 
@@ -50,7 +47,6 @@ namespace Snake
         public Cellkind Kind { get; set; }
         public Cells(int x, int y)
         {
-
             X = x;
             Y = y;
             rect = new Rectangle(X, Y, cell_size, cell_size);
@@ -69,7 +65,6 @@ namespace Snake
         {
             bool wrong_coord;
             rnd = new Random();
-
             do
             {
                 wrong_coord = false;
@@ -90,14 +85,14 @@ namespace Snake
             rect.X = X;
             rect.Y = Y;
 
-            if (this.Kind == Cellkind.Head) g.DrawImage(image_head, Rect);
-            if (this.Kind == Cellkind.Tail) g.DrawImage(image_tail, Rect);
-            if (this.Kind == Cellkind.Food) g.DrawImage(image_mouse, Rect);
-            if (this.Kind == Cellkind.Speed) g.DrawImage(image_speed, Rect);
-            if (this.Kind == Cellkind.Vision) g.DrawImage(image_vision, Rect);
-            if (this.Kind == Cellkind.BadVision) g.DrawImage(image_badvision, Rect);
+            if (Kind == Cellkind.Head) g.DrawImage(image_head, Rect);
+            if (Kind == Cellkind.Tail) g.DrawImage(image_tail, Rect);
+            if (Kind == Cellkind.Food) g.DrawImage(image_mouse, Rect);
+            if (Kind == Cellkind.Speed) g.DrawImage(image_speed, Rect);
+            if (Kind == Cellkind.Vision) g.DrawImage(image_vision, Rect);
+            if (Kind == Cellkind.BadVision) g.DrawImage(image_badvision, Rect);
         }
 
-        public virtual void TimeToMix() {}
+        public virtual void TimeToMix() { }
     }
 }
