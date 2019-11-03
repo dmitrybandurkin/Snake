@@ -14,8 +14,9 @@ namespace Snake
     {
         static Bitmap back = new Bitmap("field2.png");
 
-        Timer timer;
+        Timer game_timer;
         Timer user_timer;
+        int player_speed, game_speed;
 
         SnakeUser user_snake;
         SnakeEvel evel;
@@ -24,6 +25,7 @@ namespace Snake
 
         int x=10, y;
         string txt;
+        int width, height;
         /// <summary>
         /// разрешение поворот змейки: true - присутствует
         /// </summary>
@@ -37,20 +39,23 @@ namespace Snake
             InitializeComponent();
 
             this.BackgroundImage = back;
-
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
-
 
             this.KeyDown += Movement;
             this.Paint += Form_Paint;
             this.DoubleBuffered = true;
 
+            width = 60;
+            height=35;
+            player_speed = 100;
+            game_speed = 100;
+
             rnd = new Random();
             poi = new Cells[4];
-            poi[0] = new CellsFood(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10);
-            poi[1] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10,Cellkind.Speed);
-            poi[2] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10, Cellkind.Vision);
-            poi[3] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10, Cellkind.BadVision);
+            poi[0] = new CellsFood(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10);
+            poi[1] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10,Cellkind.Speed);
+            poi[2] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10, Cellkind.Vision);
+            poi[3] = new CellsEffect(rnd.Next(10, width) * 10, rnd.Next(10, height) * 10, Cellkind.BadVision);
 
             user_snake = new SnakeUser(100,250);
             evel = new SnakeEvel(600,250);
@@ -61,16 +66,16 @@ namespace Snake
 
         private void InitUserTimer()
         {
-            user_timer = new Timer() { Interval = 100, Enabled = true };
+            user_timer = new Timer() { Interval = player_speed, Enabled = true };
             user_timer.Tick += UserTimerTick;
             user_timer.Start();
         }
 
         private void InitTimer()
         {
-            timer = new Timer() { Interval = 100, Enabled = true };
-            timer.Tick += TimerTick;
-            timer.Start();
+            game_timer = new Timer() { Interval = game_speed, Enabled = true };
+            game_timer.Tick += TimerTick;
+            game_timer.Start();
         }
         private void Movement(object sender, KeyEventArgs e)
         {
@@ -162,13 +167,13 @@ namespace Snake
         private void Form_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.DrawRectangle(new Pen(Color.Black), 100, 50, 600, 350);
+            g.DrawRectangle(new Pen(Color.Black), 100, 50, width*10, height*10);
             user_snake.Draw(g);
             evel.Draw(g);
             foreach (Cells p in poi)
             {
-                if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
-                //p.Draw(g);
+                //if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
+                p.Draw(g);
             }
 
 
