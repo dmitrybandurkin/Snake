@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Media;
 
 namespace Snake
 {
@@ -33,6 +34,9 @@ namespace Snake
         private static Bitmap image_vision = new Bitmap("vision.png");
         private static Bitmap image_badvision = new Bitmap("badvision.gif");
 
+        private static SoundPlayer sp1 = new SoundPlayer("sound.wav");
+        private static SoundPlayer sp2 = new SoundPlayer("drink.wav");
+
         protected Random rnd;
 
         /// <summary>
@@ -63,6 +67,9 @@ namespace Snake
 
         public virtual void Place(Snake obj)
         {
+            if (Kind == Cellkind.Food) sp1.Play();
+            else sp2.Play();
+
             bool wrong_coord;
             rnd = new Random();
             do
