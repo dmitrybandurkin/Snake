@@ -12,7 +12,7 @@ namespace Snake
 {
     public partial class Form1 : Form
     {
-        Bitmap back;
+        static Bitmap back = new Bitmap("field2.png");
 
         Timer timer;
         Timer user_timer;
@@ -36,7 +36,6 @@ namespace Snake
         {
             InitializeComponent();
 
-            back = new Bitmap("field2.png");
             this.BackgroundImage = back;
 
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
