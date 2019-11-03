@@ -172,8 +172,8 @@ namespace Snake
             evel.Draw(g);
             foreach (Cells p in poi)
             {
-                //if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
-                p.Draw(g);
+                if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
+                //p.Draw(g);
             }
 
 
