@@ -37,7 +37,7 @@ namespace Snake
                     randompoint_y = rnd.Next(50, 390);
                 }
 
-                if (Math.Abs(obj.X - snake[0].X) > rad_vis || Math.Abs(obj.Y - snake[0].Y) > rad_vis)
+                if (Math.Abs(obj.X - snake[0].X) > Rad_vis || Math.Abs(obj.Y - snake[0].Y) > Rad_vis)
                 {
                     if (snake[0].X < randompoint_x) Move(s, 0);
                     if (snake[0].X > randompoint_x) Move(-s, 0);

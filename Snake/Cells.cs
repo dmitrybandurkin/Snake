@@ -14,23 +14,30 @@ namespace Snake
         Tail,
         Food,
         Speed,
+        Vision,
+        BadVision,
         Empty
     } 
     class Cells
     {
+        public bool Inaction { get; set; }
+
         const int cell_size = 10;
         public Rectangle Rect { get; set; }
-        private Bitmap image_head = new Bitmap("head.png");
-        private Bitmap image_tail = new Bitmap("tail.png");
-        private Bitmap image_mouse = new Bitmap("mouse.png");
-        private Bitmap image_speed = new Bitmap("speed.png");
+        static Bitmap image_head = new Bitmap("head.png");
+        static Bitmap image_tail = new Bitmap("tail.png");
+        static Bitmap image_mouse = new Bitmap("mouse.png");
+        static Bitmap image_speed = new Bitmap("speed.png");
+        static Bitmap image_vision = new Bitmap("vision.png");
+        static Bitmap image_badvision = new Bitmap("badvision.png");
 
-        public Random rnd;
+        protected Random rnd;
 
         /// <summary>
         /// время замеса новой фичи
         /// </summary>
         public int Mixing_period { get; set; }
+        public int Act_period { get; set; }
 
         protected Point p;
         protected Size s;
@@ -82,6 +89,8 @@ namespace Snake
             if (this.Kind == Cellkind.Tail) g.DrawImage(image_tail, Rect);
             if (this.Kind == Cellkind.Food) g.DrawImage(image_mouse, Rect);
             if (this.Kind == Cellkind.Speed) g.DrawImage(image_speed, Rect);
+            if (this.Kind == Cellkind.Vision) g.DrawImage(image_vision, Rect);
+            if (this.Kind == Cellkind.BadVision) g.DrawImage(image_badvision, Rect);
         }
 
         public virtual void TimeToMix() {}

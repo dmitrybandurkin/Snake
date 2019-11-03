@@ -12,6 +12,8 @@ namespace Snake
 {
     public partial class Form1 : Form
     {
+        Bitmap back;
+
         Timer timer;
         Timer user_timer;
 
@@ -34,17 +36,22 @@ namespace Snake
         {
             InitializeComponent();
 
+            back = new Bitmap("field2.png");
+            this.BackgroundImage = back;
+
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
-            this.BackColor = Color.White;
+
 
             this.KeyDown += Movement;
             this.Paint += Form_Paint;
             this.DoubleBuffered = true;
 
             rnd = new Random();
-            poi = new Cells[2];
+            poi = new Cells[4];
             poi[0] = new CellsFood(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10);
-            poi[1] = new CellsSpeed(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10);
+            poi[1] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10,Cellkind.Speed);
+            poi[2] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10, Cellkind.Vision);
+            poi[3] = new CellsEffect(rnd.Next(10, 60) * 10, rnd.Next(10, 35) * 10, Cellkind.BadVision);
 
             user_snake = new SnakeUser(100,250);
             evel = new SnakeEvel(600,250);
@@ -104,21 +111,35 @@ namespace Snake
         {
             if (user_snake.Loop) user_snake.Eat(Cellkind.Tail);
 
-            if (user_snake.Speedup)
+            txt = "";
+            user_timer.Interval = 100;
+            user_snake.Rad_vis = 100;
+            evel.Rad_vis = 100;
+
+            if (poi[1].Inaction)
             {
                 user_timer.Interval = 50;
-                txt = "Многоножка!";
+                txt = txt + ((CellsEffect)poi[1]).Txt + "\n";
             }
-            else
+
+            if (poi[2].Inaction)
             {
-                txt = "";
-                user_timer.Interval = 100;
+                user_snake.Rad_vis = 1000;
+                txt = txt + ((CellsEffect)poi[2]).Txt + "\n";
             }
+
+            if (poi[3].Inaction)
+            {
+                evel.Rad_vis = 1000;
+                user_snake.Rad_vis = 20;
+                txt = txt + ((CellsEffect)poi[3]).Txt + "\n";
+            }
+
         }
         private void Outofrange()
         {
             if (user_snake.X < 100) user_snake.X = 690;
-            if (user_snake.X > 700) user_snake.X = 100;
+            if (user_snake.X > 690) user_snake.X = 100;
             if (user_snake.Y < 50) user_snake.Y = 390;
             if (user_snake.Y > 390) user_snake.Y = 50;
         }
@@ -147,15 +168,20 @@ namespace Snake
             evel.Draw(g);
             foreach (Cells p in poi)
             {
-                p.Draw(g);
+                if (Math.Sqrt(Math.Pow((user_snake.X - p.X),2) + Math.Pow((user_snake.Y - p.Y),2))< user_snake.Rad_vis) p.Draw(g);
+                //p.Draw(g);
             }
-            g.DrawString($"Player: {user_snake.scores.ToString()}",new Font("Calibri",12),Brushes.Black,10,10);
-            g.DrawString($"Computer: {evel.scores.ToString()}", new Font("Calibri", 12), Brushes.Black, 10, 30);
-            g.DrawString($"Эффекты: {txt}", new Font("Calibri", 12), Brushes.Black, 150, 10);
-            //g.DrawString($"до новой 100: {poi[1].Mixing_period.ToString()}", new Font("Calibri", 12), Brushes.Black, 150, 30);
-            //g.DrawString($"fx: {poi[0].X.ToString()}, fy:{poi[0].Y.ToString()}", new Font("Calibri", 12), Brushes.Black, 300, 10);
-            //g.DrawString($"sp: {poi[1].X.ToString()}, fy:{poi[1].Y.ToString()}", new Font("Calibri", 12), Brushes.Black, 300, 30);
-            //g.DrawString($"скорость: {user_snake.Speed.ToString()}", new Font("Calibri", 12), Brushes.Black, 450, 10);
+
+
+            g.DrawString($"Player: {user_snake.scores.ToString()}",new Font("Calibri",14,FontStyle.Bold),Brushes.White,10,5);
+            g.DrawString($"Computer: {evel.scores.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 10, 30);
+            g.DrawString($"Эффекты: {txt}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 150, 5);
+
+            //g.DrawString($"SPact: {poi[1].Act_period.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 400, 5);
+            //g.DrawString($"VSact: {poi[2].Act_period.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 400, 30);
+
+            //g.DrawString($"Sp: {user_timer.Interval.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 600, 5);
+            //g.DrawString($"Rad: {user_snake.Rad_vis.ToString()}", new Font("Calibri", 14, FontStyle.Bold), Brushes.White, 600, 30);
         }
 
     }

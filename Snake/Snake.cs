@@ -11,26 +11,20 @@ namespace Snake
     abstract class Snake
     {
         protected List<Cells> snake;
-
         public int Speed { get; set; }
-
         public int scores { get; set; }
-
-        protected int rad_vis;
-
+        public int Rad_vis { get; set; }
         public int X
         {
             get => snake[0].X;
             set => snake[0].X = value;
         }
-
         public int Y
         {
             get => snake[0].Y;
             set => snake[0].Y = value;
         }
-        //public int X => snake[0].X;
-        //public int Y => snake[0].Y;
+
         public Rectangle Rect => snake[0].Rect;
         public int Length => snake.Count;
         public List<Cells> Snake_list => snake;
@@ -58,7 +52,7 @@ namespace Snake
         {
             scores = 0;
             Speed = 10;
-            rad_vis = 100;
+            Rad_vis = 100;
         }
         public void Move(int shift_x, int shift_y)
         {
@@ -90,7 +84,7 @@ namespace Snake
                 cell.Draw(g);
             }
 
-            //g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - rad_vis, snake[0].Y+5 - rad_vis, 2* rad_vis, 2* rad_vis);
+            g.DrawEllipse(new Pen(Color.Red), snake[0].X+5 - Rad_vis, snake[0].Y+5 - Rad_vis, 2* Rad_vis, 2* Rad_vis);
         }
     }
 }
