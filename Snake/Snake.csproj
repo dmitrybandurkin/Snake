@@ -49,6 +49,18 @@
     <Compile Include="Cells.cs" />
     <Compile Include="CellsEffect.cs" />
     <Compile Include="CellsFood.cs" />
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Properties\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="SnakeEvel.cs" />
     <Compile Include="SnakeUser.cs" />
     <Compile Include="Snake.cs" />

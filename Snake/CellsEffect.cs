@@ -28,16 +28,22 @@ namespace Snake
         {
             base.Place(obj);
             Kind = Cellkind.Empty;
+
             Mixing_period = 0;
-            Act_period = 0;
             period_mix.Enabled = true;
             period_mix.Start();
-            period_act.Enabled = true;
-            period_act.Start();
-            Inaction = true;
-            if (init_kind == Cellkind.Speed) Txt = "+ Многоножка";
-            if (init_kind == Cellkind.Vision) Txt = "+ Прозрение";
-            if (init_kind == Cellkind.BadVision) Txt = "- Всевидящее око";
+
+            if (obj is SnakeUser)
+            {
+                Act_period = 0;
+                period_act.Enabled = true;
+                period_act.Start();
+                Inaction = true;
+                if (init_kind == Cellkind.Speed) Txt = "+ Многоножка";
+                if (init_kind == Cellkind.Vision) Txt = "+ Прозрение";
+                if (init_kind == Cellkind.BadVision) Txt = "- Всевидящее око";
+                if (init_kind == Cellkind.Meat) Txt = "+- Каннибал";
+            }
         }
         private void Mixing(object sender, ElapsedEventArgs e)
         {

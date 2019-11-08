@@ -12,6 +12,7 @@ namespace Snake
         Speed,
         Vision,
         BadVision,
+        Meat,
         Empty
     }
 
@@ -32,7 +33,8 @@ namespace Snake
         private static Bitmap image_mouse = new Bitmap("mouse.png");
         private static Bitmap image_speed = new Bitmap("speed.png");
         private static Bitmap image_vision = new Bitmap("vision.png");
-        private static Bitmap image_badvision = new Bitmap("badvision.gif");
+        private static Bitmap image_badvision = new Bitmap("badvision.png");
+        private static Bitmap image_meat = new Bitmap("meat.png");
 
         private static SoundPlayer sp1 = new SoundPlayer("sound.wav");
         private static SoundPlayer sp2 = new SoundPlayer("drink.wav");
@@ -98,8 +100,7 @@ namespace Snake
             if (Kind == Cellkind.Speed) g.DrawImage(image_speed, Rect);
             if (Kind == Cellkind.Vision) g.DrawImage(image_vision, Rect);
             if (Kind == Cellkind.BadVision) g.DrawImage(image_badvision, Rect);
+            if (Kind == Cellkind.Meat) g.DrawImage(image_meat, Rect);
         }
-
-        public virtual void TimeToMix() { }
     }
 }

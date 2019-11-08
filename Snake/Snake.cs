@@ -29,7 +29,7 @@ namespace Snake
         {
             get
             {
-                if (Length > 4)
+                if (Length > 0)
                 {
                     for (int i = 4; i < Length; i++)
                     {
@@ -48,6 +48,8 @@ namespace Snake
             scores = 0;
             Speed = 10;
             Rad_vis = 100;
+            snake = new List<Cells>();
+            snake.Add(new Cells(x, y, Cellkind.Head));
         }
         public void Move(int shift_x, int shift_y)
         {
@@ -71,7 +73,20 @@ namespace Snake
                 snake[i].Y = coord[i - 1, 1];
             }
         }
-        virtual public void Eat(Cellkind kind) { }
+        virtual public void Eat(Cellkind kind)
+        {
+            //if (kind == Cellkind.Tail)
+            //{
+            //    snake.RemoveRange(loopdelete, Length - loopdelete);
+            //    scores = scores - (Length - loopdelete) * 10 / 2;
+            //}
+
+            //if (kind == Cellkind.Food)
+            //{
+            //    snake.Add(new Cells(snake[Length - 1].X, snake[Length - 1].Y, Cellkind.Tail));
+            //    scores += 10;
+            //}
+        }
         public void Draw(Graphics g)
         {
             foreach (Cells cell in snake)

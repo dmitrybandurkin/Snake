@@ -12,11 +12,6 @@ namespace Snake
             randompoint_x = 300;
             randompoint_y = 300;
             rnd = new Random();
-            snake = new List<Cells>();
-            snake.Add(new Cells(x, y, Cellkind.Head));
-            snake.Add(new Cells(x, y, Cellkind.Tail));
-            snake.Add(new Cells(x, y, Cellkind.Tail));
-            snake.Add(new Cells(x, y, Cellkind.Tail));
         }
         public void AI(Cells obj)
         {
@@ -52,7 +47,16 @@ namespace Snake
         }
         public override void Eat(Cellkind kind)
         {
-            if (kind == Cellkind.Food) scores += 10;
+            if (kind == Cellkind.Tail)
+            {
+                snake.RemoveRange(loopdelete, Length - loopdelete);
+            }
+
+            if (kind == Cellkind.Food)
+            {
+                snake.Add(new Cells(snake[Length - 1].X, snake[Length - 1].Y, Cellkind.Tail));
+                scores += 10;
+            }
         }
     }
 }

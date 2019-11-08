@@ -4,11 +4,8 @@ namespace Snake
 {
     internal class SnakeUser : Snake
     {
-        public SnakeUser(int x, int y) : base(x, y)
-        {
-            snake = new List<Cells>();
-            snake.Add(new Cells(x, y, Cellkind.Head));
-        }
+        public SnakeUser(int x, int y) : base(x, y) {}
+
         public override void Eat(Cellkind kind)
         {
             if (kind == Cellkind.Tail)
@@ -21,6 +18,11 @@ namespace Snake
             {
                 snake.Add(new Cells(snake[Length - 1].X, snake[Length - 1].Y, Cellkind.Tail));
                 scores += 10;
+            }
+
+            if (kind == Cellkind.Meat)
+            {
+                scores += 100;
             }
         }
     }
